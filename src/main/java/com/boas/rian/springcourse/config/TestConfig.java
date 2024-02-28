@@ -1,8 +1,10 @@
 package com.boas.rian.springcourse.config;
 
+import com.boas.rian.springcourse.entities.Category;
 import com.boas.rian.springcourse.entities.Order;
 import com.boas.rian.springcourse.entities.User;
 import com.boas.rian.springcourse.entities.enums.OrderStatus;
+import com.boas.rian.springcourse.repositories.CategoryRepository;
 import com.boas.rian.springcourse.repositories.OrderRepository;
 import com.boas.rian.springcourse.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,13 @@ import java.util.Arrays;
 public class TestConfig implements CommandLineRunner {
     private UserRepository userRepository;
     private OrderRepository orderRepository;
+    private CategoryRepository categoryRepository;
 
     @Autowired
-    public TestConfig(UserRepository userRepository, OrderRepository orderRepository){
+    public TestConfig(UserRepository userRepository, OrderRepository orderRepository, CategoryRepository categoryRepository){
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
-
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -35,7 +38,12 @@ public class TestConfig implements CommandLineRunner {
         Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYMENT, u2);
         Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.DELIVERED, u1);
 
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
         userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
     }
 }
